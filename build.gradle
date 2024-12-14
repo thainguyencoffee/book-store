@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.github.node-gradle.node' version '7.1.0'
+}
+
+group = 'dev'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+node {
+    download.set(true)
+    version.set('22.11.0')
+}
+
+dependencies {
+    implementation('io.github.wimdeblauwe:error-handling-spring-boot-starter:4.5.0')
+    implementation 'commons-validator:commons-validator:1.9.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+task npmRunBuild(type: NpmTask) {
+    args = ['run', 'build']
+    dependsOn npmInstall
+
+    inputs.files(fileTree('node_modules'))
+    inputs.files(fileTree('src/main/webapp'))
+    inputs.file('angular.json')
+    inputs.file('package.json')
+    inputs.file('tsconfig.json')
+    inputs.file('tsconfig.app.json')
+    outputs.dir(layout.buildDirectory.dir('resources/main/static'))
+}
+
+bootRun {
+    environment SPRING_PROFILES_ACTIVE : environment.SPRING_PROFILES_ACTIVE ?: 'local'
+}
+
+processResources {
+    dependsOn npmRunBuild
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

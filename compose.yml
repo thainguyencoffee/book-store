@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: bookstore.postgres
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: bookstore
+    ports:
+      - '5432:5432'
