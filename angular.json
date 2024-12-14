@@ -1,11 +1,15 @@
 {
-  "$schema": "src/main/webapp/node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "webapp": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src/main/webapp",
       "prefix": "app",
@@ -20,18 +24,23 @@
             "index": "src/main/webapp/index.html",
             "browser": "src/main/webapp/main.ts",
             "polyfills": [
+              "@angular/localize/init",
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "src/main/webapp/public"
-              }
+              "src/main/webapp/favicon.ico",
+              {"glob": "**/*", "input": "src/main/webapp/public"}
             ],
             "styles": [
-              "src/main/webapp/styles.css"
+              "src/main/webapp/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": ["import"]
+              }
+            },
             "scripts": []
           },
           "configurations": {
@@ -39,8 +48,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -87,14 +96,16 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
+              "src/main/webapp/favicon.ico",
               {
                 "glob": "**/*",
                 "input": "src/main/webapp/public"
               }
             ],
             "styles": [
-              "src/main/webapp/styles.css"
+              "src/main/webapp/styles.scss"
             ],
             "scripts": []
           }

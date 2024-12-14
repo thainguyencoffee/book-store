@@ -3,6 +3,7 @@ package dev.thainguyen.bookstore.catalog.web;
 import dev.thainguyen.bookstore.catalog.application.BookService;
 import dev.thainguyen.bookstore.catalog.application.dto.BookDTO;
 import dev.thainguyen.bookstore.catalog.web.dto.BookRequestDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class BookController {
   }
 
   @PostMapping
-  public ResponseEntity<Long> addBook(@RequestBody BookRequestDTO bookRequest) {
+  public ResponseEntity<Long> addBook(@Valid @RequestBody BookRequestDTO bookRequest) {
     Long bookId = bookService.addBookToCatalog(bookRequest.isbn());
     return ResponseEntity.created(URI.create("/api/books/" + bookId)).body(bookId);
   }

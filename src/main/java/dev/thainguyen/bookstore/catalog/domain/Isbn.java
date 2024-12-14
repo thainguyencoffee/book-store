@@ -7,7 +7,7 @@ public record Isbn(String isbn) {
   private static final ISBNValidator VALIDATOR = new ISBNValidator();
 
   public Isbn {
-    if (!VALIDATOR.isValid(isbn))
+    if (!VALIDATOR.isValidISBN10(isbn) && !VALIDATOR.isValidISBN13(isbn))
       throw new IsbnInvalidException();
   }
 
