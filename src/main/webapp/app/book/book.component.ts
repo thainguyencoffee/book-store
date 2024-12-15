@@ -4,7 +4,7 @@ import {ErrorHandler} from '../common/error-handler.injectable';
 import {Subscription} from 'rxjs';
 import {BookService} from './book.service';
 import {PaginationUtils} from '../common/page-wrapper';
-import {NavigationEnd, Router, RouterLink} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IsbnSearchService} from './isbn-search.service';
 import {BookSearchResult} from './book-search-result';
@@ -14,7 +14,6 @@ import {BookRequestDto} from './book-request.dto';
 @Component({
   selector: 'app-home',
   imports: [
-    RouterLink,
     ReactiveFormsModule,
     FormsModule,
     NgIf,
@@ -42,11 +41,11 @@ export class BookComponent implements OnInit, OnDestroy{
 
   getMessage(key: string, details?: any) {
     const messages: Record<string, string> = {
-      confirmDelete: $localize`:@@delete.confirm:Do you really want to delete this element? This cannot be undone.`,
-      deleted: $localize`:@@book.delete.success:Book with ID: ${details?.bookId} was removed successfully.`,
-      notFound: $localize`:@@book.search.notFound:Book search not found.`,
-      confirmAdd: $localize`:@@add.confirm:Do you really want to add this element?.`,
-      added: $localize`:@@book.add.success:Book with isbn: ${details?.isbn} was added successfully. BookID: ${details?.bookId}.`
+      confirmDelete: `Do you really want to delete this element? This cannot be undone.`,
+      deleted: `Book with ID: ${details?.bookId} was removed successfully.`,
+      notFound: `Book search not found.`,
+      confirmAdd: `Do you really want to add this element?.`,
+      added: `Book with isbn: ${details?.isbn} was added successfully. BookID: ${details?.bookId}.`
     };
     return messages[key];
   }

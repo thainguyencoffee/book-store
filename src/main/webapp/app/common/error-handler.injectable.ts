@@ -11,10 +11,14 @@ export class ErrorHandler {
 
   handleServerError(error: ErrorResponse, group?: FormGroup, getMessage?: (key: string) => string) {
 
+    const errorStatus = error?.status || '503';
+    const errorMessage = error?.message || '';
+
     if (!error || !error.fieldErrors) {
       this.router.navigate(['/error'], {
         state: {
-          errorStatus: error.status ? '' + error.status : '503'
+          errorStatus: errorStatus,
+          errorMessage: errorMessage
         }
       });
       return;
@@ -46,8 +50,8 @@ export class ErrorHandler {
 
 export function getGlobalErrorMessage(key: string, details?: any) {
   let globalErrorMessages: Record<string, string> = {
-    required: $localize`:@@required:Please provide a value.`,
-    maxlength: $localize`:@@maxlength:Your value must have a length of less then ${details?.requiredLength} characters.`
+    required: `Please provide a value.`,
+    maxlength: `Your value must have a length of less then ${details?.requiredLength} characters.`
   };
   return globalErrorMessages[key];
 }

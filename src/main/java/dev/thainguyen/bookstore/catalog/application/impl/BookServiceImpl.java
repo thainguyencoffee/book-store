@@ -5,6 +5,7 @@ import dev.thainguyen.bookstore.catalog.application.IsbnSearchService;
 import dev.thainguyen.bookstore.catalog.application.dto.BookDTO;
 import dev.thainguyen.bookstore.catalog.application.dto.BookSearchResult;
 import dev.thainguyen.bookstore.catalog.domain.Book;
+import dev.thainguyen.bookstore.catalog.domain.BookExistsException;
 import dev.thainguyen.bookstore.catalog.domain.BookRepository;
 import dev.thainguyen.bookstore.catalog.domain.Isbn;
 import dev.thainguyen.bookstore.util.ResourceNotFound;
@@ -23,16 +24,20 @@ public class BookServiceImpl implements BookService {
   @Override
   public Long addBookToCatalog(String isbnString) {
     Isbn isbn = new Isbn(isbnString);
+    if (bookRepository.existsByIsbn(isbn)) {
+      throw new BookExistsException("Book already exists with isbn: " + isbnString);
+    }
 
     BookSearchResult bookSearchResult = isbnSearchService.search(isbn);
-    Book book = new Book(bookSearchResult.title(), isbn);
+    Book book = new Book(bookSearchResult.title(), isbn, bookSearchResult.publishers());
     bookRepository.save(book);
     return book.getId();
   }
 
   @Override
   public Page<BookDTO> findAll(Pageable pageable) {
-    return bookRepository.findAll(pageable).map(BookDTO::from);
+    return bookRepository.findAll(pageable)
+      .map(BookDTO::from);
   }
 
   @Override

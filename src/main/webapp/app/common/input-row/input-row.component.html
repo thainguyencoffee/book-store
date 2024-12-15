@@ -27,7 +27,7 @@
       } @else if (rowType === 'select') {
         <select [id]="field" [formControlName]="field"
                 class="form-select {{ getInputClasses() }}">
-          <option [ngValue]="null" i18n="@@select.empty.label">Please select</option>
+          <option [ngValue]="null">Please select</option>
           @for (option of optionsMap | keyvalue; track option.key) {
             <option [ngValue]="option.key">{{ option.value }}</option>
           }
@@ -44,7 +44,7 @@
           <div class="form-check form-check-inline pt-2">
             <input [id]="field" [formControlName]="field" [value]="null" type="radio"
                    class="form-check-input {{ inputClass }}" />
-            <label [for]="field" class="form-check-label" i18n="@@select.empty.label">Please select</label>
+            <label [for]="field" class="form-check-label">Please select</label>
           </div>
         }
         @for (option of optionsMap | keyvalue; track option.key) {
