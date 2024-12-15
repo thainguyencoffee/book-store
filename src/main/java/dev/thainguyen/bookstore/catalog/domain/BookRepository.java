@@ -8,4 +8,6 @@ public interface BookRepository extends ListCrudRepository<Book, Long> {
 
   Page<Book> findAll(Pageable pageable);
 
+  boolean existsByIsbn(Isbn isbn);
+
 }

@@ -2,25 +2,28 @@
   <div class="container">
     <nav class="navbar navbar-light navbar-expand-md">
       <a routerLink="/" class="navbar-brand">
-        <img ngSrc="logo.png" i18n-alt="@@app.title" alt="MyApp" width="30" height="30" class="d-inline-block align-top">
-        <span class="ps-1" i18n="@@app.title">MyApp</span>
+        <img ngSrc="logo.png" alt="MyApp" width="30" height="30" class="d-inline-block align-top">
+        <span class="ps-1">Bookstore</span>
       </a>
       <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
-              i18n-aria-label="@@navigation.toggle" aria-label="Toggle navigation" aria-controls="navbarToggle" aria-expanded="false">
+              aria-label="Toggle navigation" aria-controls="navbarToggle" aria-expanded="false">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
         <ul class="navbar-nav ms-auto">
+
+          <!--Source code navbar item-->
           <li class="navbar-item">
-            <a routerLink="/" class="nav-link" i18n="@@navigation.home">Home</a>
+            <a href="https://github.com/thainguyencoffee/book-store" target="_blank"
+               class="nav-link">
+              Source code
+            </a>
           </li>
+
           <li class="navbar-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarEntitiesLink" role="button"
-               aria-expanded="false" i18n="@@navigation.entities">Entities</a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">
-              <li><a routerLink="/books" class="dropdown-item" i18n="@@book.list.headline">Books</a></li>
-            </ul>
+
           </li>
+
         </ul>
       </div>
     </nav>

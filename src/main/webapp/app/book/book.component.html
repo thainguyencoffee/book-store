@@ -1,16 +1,19 @@
-<div i18n="@@book.list.createNew" class="btn btn-sm btn-primary" (click)="toggleCreateBook = !toggleCreateBook">Create new</div>
+<div class="btn btn-sm btn-primary" (click)="toggleCreateBook = !toggleCreateBook">Create new</div>
 
 @if (toggleCreateBook) {
-  <h1 class="flex-grow-1" i18n="@@book.add.headline">Add Book</h1>
-  <div class="row">
-    <div class="col-12 col-md-6">
+  <h3 class="flex-grow-1">Add Book</h3>
+  <div class="row flex-grow-1">
+    <div class="col-12 col-md-6 mb-2">
       <form (ngSubmit)="handleSearchBook()">
-        <div class="row">
-          <div class="form-group col-10">
-            <input id="bookTitle" [(ngModel)]="isbnSearch" name="Isbn" class="form-control" type="text" i18n-placeholder="@@book.placeholder" placeholder="Enter book isbn" required />
-          </div>
-
-          <button type="submit" class="btn btn-primary col-2" [disabled]="loading || !isbnSearch.trim()">
+        <div class="input-group">
+          <!-- Input search with icon -->
+          <input [(ngModel)]="isbnSearch"
+                 class="form-control"
+                 name="Isbn"
+                 placeholder="Enter book isbn"
+                 required />
+          <button type="submit" class="btn btn-primary" [disabled]="loading || !isbnSearch.trim()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ loading ? 'Searching...' : 'Search' }}
           </button>
         </div>
@@ -19,15 +22,15 @@
     <div class="col-12 col-md-6">
       <div class="card" *ngIf="bookSearchResult">
         <div class="card-body">
-          <h5 class="card-title" i18n="@@book.search.title">{{ bookSearchResult.title }}</h5>
-          <p class="card-text" i18n="@@book.search.isbn_13">Isbn 13: <b>{{bookSearchResult.isbn_13.join(', ')}}</b></p>
-          <p class="card-text" i18n="@@book.search.revision">Revision: <b>{{bookSearchResult.revision}}</b></p>
+          <h5 class="card-title">{{ bookSearchResult.title }}</h5>
+          <p class="card-text">Isbn 13: <b>{{bookSearchResult.isbn_13.join(', ')}}</b></p>
+          <p class="card-text">Revision: <b>{{bookSearchResult.revision}}</b></p>
         </div>
         <ul class="list-group list-group-flush" *ngFor="let publisher of bookSearchResult.publishers">
-          <li class="list-group-item" i18n="@@book.search.publisher">{{publisher}}</li>
+          <li class="list-group-item">{{publisher}}</li>
         </ul>
         <div class="card-footer">
-          <button class="btn btn-primary" i18n="@@book.add.label" (click)="handleSubmit()">Add to catalog</button>
+          <button class="btn btn-primary" (click)="handleSubmit()">Add to catalog</button>
         </div>
       </div>
     </div>
@@ -35,15 +38,15 @@
 }
 
 @if (books && books.length === 0) {
-  <div i18n="@@book.list.empty">No Books could be found.</div>
+  <div>No Books could be found.</div>
 } @else {
   <div class="table-responsive">
     <table class="table table-striped table-hover align-middle">
       <thead>
         <tr>
-          <th scope="col" i18n="@@book.id.label">Id</th>
-          <th scope="col" i18n="@@book.title.label">Title</th>
-          <th scope="col" i18n="@@book.isbn.label">Isbn</th>
+          <th scope="col">Id</th>
+          <th scope="col">Title</th>
+          <th scope="col">Isbn</th>
           <th><!----></th>
         </tr>
       </thead>
@@ -55,8 +58,28 @@
             <td>{{book.isbn}}</td>
             <td>
               <div class="float-end text-nowrap">
-                <a [routerLink]="['/books/edit', book.id]" class="btn btn-sm btn-secondary" i18n="@@book.list.edit">Edit</a>
-                <button type="button" (click)="confirmDelete(book.id!)" class="btn btn-sm btn-secondary ms-2" i18n="@@book.list.delete">Delete</button>
+                <div class="dropdown">
+                  <button
+                    class="btn btn-sm btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    aria-label="Options"
+                  >
+                    Options
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <button
+                        type="button"
+                        (click)="confirmDelete(book.id!)"
+                        class="dropdown-item text-danger"
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </td>
           </tr>
@@ -77,6 +100,5 @@
         </li>
       </ul>
     </nav>
-
   </div>
 }
