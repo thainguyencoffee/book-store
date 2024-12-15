@@ -43,7 +43,7 @@ export class BookComponent implements OnInit, OnDestroy{
   getMessage(key: string, details?: any) {
     const messages: Record<string, string> = {
       confirmDelete: $localize`:@@delete.confirm:Do you really want to delete this element? This cannot be undone.`,
-      deleted: $localize`:@@book.delete.success:Book was removed successfully.`,
+      deleted: $localize`:@@book.delete.success:Book with ID: ${details?.bookId} was removed successfully.`,
       notFound: $localize`:@@book.search.notFound:Book search not found.`,
       confirmAdd: $localize`:@@add.confirm:Do you really want to add this element?.`,
       added: $localize`:@@book.add.success:Book with isbn: ${details?.isbn} was added successfully. BookID: ${details?.bookId}.`
@@ -112,7 +112,7 @@ export class BookComponent implements OnInit, OnDestroy{
         .subscribe({
           next: () => this.router.navigate(['/'], {
             state: {
-              msgInfo: this.getMessage('deleted')
+              msgInfo: this.getMessage('deleted', {bookId})
             }
           }),
           error: error => this.errorHandler.handleServerError(error.error)

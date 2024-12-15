@@ -42,4 +42,9 @@ public class BookServiceImpl implements BookService {
         .orElseThrow(() -> new ResourceNotFound("Book not found with id: " + id));
   }
 
+  @Override
+  public void deleteBook(Long id) {
+    bookRepository.deleteById(id);
+  }
+
 }
