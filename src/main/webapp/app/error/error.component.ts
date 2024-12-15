@@ -15,6 +15,14 @@ export class ErrorComponent implements OnInit{
   status = '404';
   error = getReasonPhrase(this.status);
 
+  getMessage(status: string) {
+    const messages: Record<string, string> = {
+      '400': `WTF cái này là rác rưởi gì thế? Đừng mong tôi giải quyết chuyện vô lý này`,
+      '404': `Bất cứ thứ gì bạn đang tìm kiếm đều không có ở đây`,
+    };
+    return messages[status];
+  }
+
   ngOnInit() {
     const currentNavigation = this.router.lastSuccessfulNavigation;
     if (currentNavigation?.initialUrl.toString() !== '/error') {
@@ -26,6 +34,4 @@ export class ErrorComponent implements OnInit{
     this.error = navigationState?.['errorMessage'] || getReasonPhrase(this.status);
   }
 
-
-  protected readonly getReasonPhrase = getReasonPhrase;
 }
